@@ -1,0 +1,230 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pzaexcp
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: emoji
+  namespace: pzaexcp
+---
+# apiVersion: v1
+# kind: ServiceAccount
+# metadata:
+#   name: voting
+#   namespace: emojivoto
+# ---
+# apiVersion: v1
+# kind: ServiceAccount
+# metadata:
+#   name: web
+#   namespace: emojivoto
+# ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pzaexcp-frontend
+  namespace: pzaexcp
+spec:
+  ports:
+  - name: http
+    port: 3000
+    targetPort: 3000
+  selector:
+    app: pzaexcp-frontend
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pzaexcp-api
+  namespace: pzaexcp
+spec:
+  ports:
+  - name: http
+    port: 3000
+    targetPort: 3000
+  selector:
+    app: pzaexcp-api
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hrpy-api
+  namespace: pzaexcp
+spec:
+  ports:
+  - name: http
+    port: 3000
+    targetPort: 3000
+  selector:
+    app: hrpy-api
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: person-api
+  namespace: pzaexcp
+spec:
+  ports:
+  - name: http
+    port: 3000
+    targetPort: 3000
+  selector:
+    app: hrpy-api
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: pzaexcp-frontend
+    app.kubernetes.io/part-of: pzaexcp
+    app.kubernetes.io/version: v1
+  name: pzaexcp-frontend
+  namespace: pzaexcp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pzaexcp-frontend
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: enabled
+      labels:
+        app: pzaexcp-frontend
+    spec:
+      containers:
+      - env:
+        - name: FORM_API_BASE
+          value: "http://pzaexcp-api.pzaexcp:3000"
+        - name: HRPY_API_BASE
+          value: "http://hrpy-api.pzaexcp:3000"
+        - name: PERSON_API_BASE
+          value: "http://person-api.pzaexcp:3000"
+        image: 172.25.0.4:5000/pzaexcp-frontend:latest
+        name: pzaexcp-frontend
+        ports:
+        - containerPort: 3000
+          name: http
+        resources:
+          requests:
+            cpu: 100m
+      serviceAccountName: emoji
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: pzaexcp-api
+    app.kubernetes.io/part-of: pzaexcp
+    app.kubernetes.io/version: v1
+  name: pzaexcp-api
+  namespace: pzaexcp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pzaexcp-api
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: enabled
+      labels:
+        app: pzaexcp-api
+    spec:
+      containers:
+      - env:
+        - name: PERSON_API_BASE
+          value: "http://person-api.pzaexcp:3000"
+        - name: DATABASE_URL
+          value: "oracle-enhanced://not_real_pzaforms_api_user:AbcdeFitzpatrick@connection-string/bnrdev"
+        image: 172.25.0.4:5000/pzaexcp-api:latest
+        name: pzaexcp-api
+        ports:
+        - containerPort: 3000
+          name: http
+        resources:
+          requests:
+            cpu: 100m
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: hrpy-api
+    app.kubernetes.io/part-of: pzaexcp
+    app.kubernetes.io/version: v1
+  name: hrpy-api
+  namespace: pzaexcp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hrpy-api
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: enabled
+      labels:
+        app: hrpy-api
+    spec:
+      containers:
+      - env:
+        - name: WEBSVC_DB_USERNAME
+          value: "notrealuser"
+        - name: WEBSVC_DB_PASSWORD
+          value: "fakepassword"
+        - name: DB_URL
+          value: "bnrdev"
+        - name: RAILS_SECRET_KEY_BASE
+          value: 2028d6f3f1770a75e73a11e434acab1490280f7e76e7c5471172106347266d0127cef0a02d3c85bf4b8ea3a852cc7c9b90a6a6dd19b31169dfe2d5b1d862d76a
+        image: 172.25.0.4:5000/hrpy-api:latest
+        name: hrpy-api
+        ports:
+        - containerPort: 3000
+          name: http
+        resources:
+          requests:
+            cpu: 100m
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: person-api
+    app.kubernetes.io/part-of: pzaexcp
+    app.kubernetes.io/version: v1
+  name: person-api
+  namespace: pzaexcp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: person-api
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: enabled
+      labels:
+        app: person-api
+    spec:
+      containers:
+      - env:
+        - name: DB_USERNAME
+          value: "notrealuser"
+        - name: DB_PASSWORD
+          value: "fakepassword"
+        - name: DB_URL
+          value: bnrdev
+        - name: RAILS_SECRET_KEY_BASE
+          value: 7accb1ba0ee88755910318f79c6f2dcc9989b812e8c906f8bf5e6bdd384a2df1248f39d5fe4ee9d396ea0622551ba6dbf94e1ff7cc96993a7e06143984ed5b5e
+        image: 172.25.0.4:5000/person-api:latest
+        name: web-svc
+        ports:
+        - containerPort: 3000
+          name: http
+        resources:
+          requests:
+            cpu: 100m
