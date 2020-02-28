@@ -96,7 +96,13 @@ spec:
         app: pzaexcp-frontend
     spec:
       containers:
-      - env:
+      - command: ["bash"]
+        args: ["--login", "-c", "yarn install && rails s -e development -p 3000 -b 0.0.0.0"]
+        env:
+        - name: RAILS_ENV
+          value: development
+        - name: RAILS_SERVE_STATIC_FILES
+          value: "true"
         - name: FORM_API_BASE
           value: "http://pzaexcp-api.pzaexcp:3000"
         - name: HRPY_API_BASE
@@ -131,11 +137,14 @@ spec:
     metadata:
       annotations:
         linkerd.io/inject: enabled
+        config.linkerd.io/skip-outbound-ports: "389,636"
       labels:
         app: pzaexcp-api
     spec:
       containers:
       - env:
+        - name: RAILS_ENV
+          value: development
         - name: PERSON_API_BASE
           value: "http://person-api.pzaexcp:3000"
         - name: DATABASE_URL
@@ -167,11 +176,14 @@ spec:
     metadata:
       annotations:
         linkerd.io/inject: enabled
+        config.linkerd.io/skip-outbound-ports: "389,636"
       labels:
         app: hrpy-api
     spec:
       containers:
       - env:
+        - name: RAILS_ENV
+          value: development
         - name: WEBSVC_DB_USERNAME
           value: "notrealuser"
         - name: WEBSVC_DB_PASSWORD
@@ -207,11 +219,14 @@ spec:
     metadata:
       annotations:
         linkerd.io/inject: enabled
+        config.linkerd.io/skip-outbound-ports: "389,636"
       labels:
         app: person-api
     spec:
       containers:
       - env:
+        - name: RAILS_ENV
+          value: development
         - name: DB_USERNAME
           value: "notrealuser"
         - name: DB_PASSWORD
