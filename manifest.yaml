@@ -72,7 +72,7 @@ spec:
     port: 3000
     targetPort: 3000
   selector:
-    app: hrpy-api
+    app: person-api
 ---
 apiVersion: apps/v1
 kind: Deployment
