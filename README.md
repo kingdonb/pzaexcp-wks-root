@@ -32,3 +32,17 @@ kubectl apply -f pzaexcp-constellation.yaml
 ```
 
 The `make secrets` command is not yet written, so users will need to make and bind secrets separately, (or simply disable authentication between `clone` and `build`, which is a totally reasonable approach since this is meant to be an air-gapped configuration.)
+
+Frequently Asked Questions (FAQ):
+
+Q: if you get the error,
+
+```
+ArgumentError: Missing `secret_key_base` for 'production' environment, set this string with `rails credentials:edit`
+```
+
+A: Go ahead and `cd` into the cloned `pzaexcp-frontend` directory and generate a new master key as it says, (the credentials file is not yet used, so this is a throwaway key)
+
+```
+EDITOR=vim rails credentials:edit
+```
