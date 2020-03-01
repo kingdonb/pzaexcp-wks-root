@@ -109,7 +109,7 @@ spec:
           value: "http://hrpy-api.pzaexcp:3000"
         - name: PERSON_API_BASE
           value: "http://person-api.pzaexcp:3000"
-        image: 172.25.0.4:5000/pzaexcp-frontend:latest
+        image: registry.default.svc:5000/pzaexcp-frontend:latest
         name: pzaexcp-frontend
         ports:
         - containerPort: 3000
@@ -149,7 +149,7 @@ spec:
           value: "http://person-api.pzaexcp:3000"
         - name: DATABASE_URL
           value: "oracle-enhanced://not_real_pzaforms_api_user:AbcdeFitzpatrick@connection-string/bnrdev"
-        image: 172.25.0.4:5000/pzaexcp-api:latest
+        image: registry.default.svc:5000/pzaexcp-api:latest
         name: pzaexcp-api
         ports:
         - containerPort: 3000
@@ -192,7 +192,7 @@ spec:
           value: "bnrdev"
         - name: RAILS_SECRET_KEY_BASE
           value: 2028d6f3f1770a75e73a11e434acab1490280f7e76e7c5471172106347266d0127cef0a02d3c85bf4b8ea3a852cc7c9b90a6a6dd19b31169dfe2d5b1d862d76a
-        image: 172.25.0.4:5000/hrpy-api:latest
+        image: registry.default.svc:5000/hrpy-api:latest
         name: hrpy-api
         ports:
         - containerPort: 3000
@@ -235,7 +235,7 @@ spec:
           value: bnrdev
         - name: RAILS_SECRET_KEY_BASE
           value: 7accb1ba0ee88755910318f79c6f2dcc9989b812e8c906f8bf5e6bdd384a2df1248f39d5fe4ee9d396ea0622551ba6dbf94e1ff7cc96993a7e06143984ed5b5e
-        image: 172.25.0.4:5000/person-api:latest
+        image: registry.default.svc:5000/person-api:latest
         name: web-svc
         ports:
         - containerPort: 3000
