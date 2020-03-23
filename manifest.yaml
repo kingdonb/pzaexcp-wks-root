@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: pzaexcp
+  name: kingdonb
 ---
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: emoji
-  namespace: pzaexcp
----
+# apiVersion: v1
+# kind: ServiceAccount
+# metadata:
+#   name: emoji
+#   namespace: kingdonb
+# ---
 # apiVersion: v1
 # kind: ServiceAccount
 # metadata:
@@ -25,7 +25,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: pzaexcp-frontend
-  namespace: pzaexcp
+  namespace: kingdonb
 spec:
   ports:
   - name: http
@@ -39,7 +39,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: pzaexcp-api
-  namespace: pzaexcp
+  namespace: kingdonb
 spec:
   ports:
   - name: http
@@ -52,7 +52,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: hrpy-api
-  namespace: pzaexcp
+  namespace: kingdonb
 spec:
   ports:
   - name: http
@@ -65,7 +65,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: person-api
-  namespace: pzaexcp
+  namespace: kingdonb
 spec:
   ports:
   - name: http
@@ -82,7 +82,7 @@ metadata:
     app.kubernetes.io/part-of: pzaexcp
     app.kubernetes.io/version: v1
   name: pzaexcp-frontend
-  namespace: pzaexcp
+  namespace: kingdonb
 spec:
   replicas: 1
   selector:
@@ -104,11 +104,11 @@ spec:
         - name: RAILS_SERVE_STATIC_FILES
           value: "true"
         - name: FORM_API_BASE
-          value: "http://pzaexcp-api.pzaexcp:3000"
+          value: "http://pzaexcp-api.kingdonb:3000"
         - name: HRPY_API_BASE
-          value: "http://hrpy-api.pzaexcp:3000"
+          value: "http://hrpy-api.kingdonb:3000"
         - name: PERSON_API_BASE
-          value: "http://person-api.pzaexcp:3000"
+          value: "http://person-api.kingdonb:3000"
         image: registry.default.svc:5000/pzaexcp-frontend:latest
         name: pzaexcp-frontend
         ports:
@@ -127,7 +127,7 @@ metadata:
     app.kubernetes.io/part-of: pzaexcp
     app.kubernetes.io/version: v1
   name: pzaexcp-api
-  namespace: pzaexcp
+  namespace: kingdonb
 spec:
   replicas: 1
   selector:
@@ -146,7 +146,7 @@ spec:
         - name: RAILS_ENV
           value: development
         - name: PERSON_API_BASE
-          value: "http://person-api.pzaexcp:3000"
+          value: "http://person-api.kingdonb:3000"
         - name: DATABASE_URL
           value: "oracle-enhanced://not_real_pzaforms_api_user:AbcdeFitzpatrick@connection-string/bnrdev"
         image: registry.default.svc:5000/pzaexcp-api:latest
@@ -166,7 +166,7 @@ metadata:
     app.kubernetes.io/part-of: pzaexcp
     app.kubernetes.io/version: v1
   name: hrpy-api
-  namespace: pzaexcp
+  namespace: kingdonb
 spec:
   replicas: 1
   selector:
@@ -209,7 +209,7 @@ metadata:
     app.kubernetes.io/part-of: pzaexcp
     app.kubernetes.io/version: v1
   name: person-api
-  namespace: pzaexcp
+  namespace: kingdonb
 spec:
   replicas: 1
   selector:
