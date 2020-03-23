@@ -8,13 +8,13 @@ all:	build push
 
 clone:
 	git clone git@bitbucket.org:nd-oit/pzaforms.git \
-		-b frontend-dockerfile    pzaexcp-frontend;
+    -b frontend-okteto-dev    pzaexcp-frontend;
 	git clone git@bitbucket.org:nd-oit/pzaforms.git \
-		-b pzaforms-api-docker    pzaexcp-api;
+    -b api-okteto-dev         pzaexcp-api;
 	git clone git@bitbucket.org:nd-oit/nd_hrpy_api_internal.git \
-		-b hrpy-dockerfile        hrpy-api;
+    -b okteto-dev             hrpy-api;
 	git clone git@bitbucket.org:nd-oit/nd-person-api-ws.git \
-		-b person-api-dockerfile  person-api;
+    -b okteto-dev             person-api;
 
 build: pzaexcp-frontend pzaexcp-api hrpy-api person-api
 
