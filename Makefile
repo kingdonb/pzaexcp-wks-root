@@ -2,9 +2,18 @@ REGISTRY_IP=172.25.0.4
 REGISTRY_PORT=5000
 
 .PHONY: all build push clone pzaexcp-frontend pzaexcp-api hrpy-api person-api
-.PHONY: manifest
+.PHONY: manifest pull-all
+
+PERSON_API_IMAGE_TAG := $(shell ./script/person-api-tag)
+HRPY_API_IMAGE_TAG := $(shell ./script/hrpy-api-tag)
+PZAEXCP_API_IMAGE_TAG := $(shell ./script/pzaexcp-api-tag)
+PZAEXCP_IMAGE_TAG := $(shell ./script/pzaexcp-tag)
 
 all:	build push
+
+pull-all:
+	for i in hrpy-api person-api pzaexcp-api pzaexcp-frontend; do \
+    pushd $$i; git pull --ff-only; popd; done
 
 clone:
 	git clone git@bitbucket.org:nd-oit/pzaforms.git \
@@ -19,19 +28,19 @@ clone:
 build: pzaexcp-frontend pzaexcp-api hrpy-api person-api
 
 pzaexcp-frontend:
-	docker build pzaexcp-frontend -t localhost:5000/pzaexcp-frontend:latest
+	docker build pzaexcp-frontend -t kingdonb/pzaexcp-frontend:${PZAEXCP_IMAGE_TAG}
 pzaexcp-api:
-	docker build pzaexcp-api -t localhost:5000/pzaexcp-api:latest
+	docker build pzaexcp-api -t kingdonb/pzaexcp-api:${PZAEXCP_API_IMAGE_TAG}
 hrpy-api:
-	docker build hrpy-api -t localhost:5000/hrpy-api:latest
+	docker build hrpy-api -t kingdonb/hrpy-api:${HRPY_API_IMAGE_TAG}
 person-api:
-	docker build person-api -t localhost:5000/person-api:latest
+	docker build person-api -t kingdonb/person-api:${PERSON_API_IMAGE_TAG}
 
 push:
-	docker push localhost:5000/pzaexcp-frontend:latest
-	docker push localhost:5000/pzaexcp-api:latest
-	docker push localhost:5000/hrpy-api:latest
-	docker push localhost:5000/person-api:latest
+	docker push kingdonb/pzaexcp-frontend:${PZAEXCP_IMAGE_TAG}
+	docker push kingdonb/pzaexcp-api:${PZAEXCP_API_IMAGE_TAG}
+	docker push kingdonb/hrpy-api:${HRPY_API_IMAGE_TAG}
+	docker push kingdonb/person-api:${PERSON_API_IMAGE_TAG}
 
 manifest:
 	echo "TODO"
