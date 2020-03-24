@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -26,6 +27,8 @@ metadata:
     app.kubernetes.io/version: v1
   name: hrpy-api
   namespace: kingdonb
+  annotations:
+    fluxcd.io/automated: "true"
 spec:
   replicas: 1
   selector:
@@ -41,7 +44,8 @@ spec:
     spec:
       containers:
       - command: ["bash"]
-        args: ["--login", "-c", "yarn install && rails s -e development -p 3000 -b 0.0.0.0"]
+        args: ["--login", "-c", "yarn install && rails s -e development -p 3000 -b\
+            \ 0.0.0.0"]
         env:
         - name: RAILS_ENV
           value: development
@@ -86,7 +90,7 @@ spec:
               name: hrpy-api-secret
               key: threescale-provider-key
         imagePullPolicy: IfNotPresent
-        image: kingdonb/hrpy-api:f19085129ce7
+        image: kingdonb/hrpy-api:okteto-dev-8f3f8a4f
         name: hrpy-api
         ports:
         - containerPort: 3000
@@ -123,6 +127,8 @@ metadata:
     app.kubernetes.io/version: v1
   name: person-api
   namespace: kingdonb
+  annotations:
+    fluxcd.io/automated: "true"
 spec:
   replicas: 1
   selector:
@@ -138,7 +144,8 @@ spec:
     spec:
       containers:
       - command: ["bash"]
-        args: ["--login", "-c", "yarn install && rails s -e development -p 3000 -b 0.0.0.0"]
+        args: ["--login", "-c", "yarn install && rails s -e development -p 3000 -b\
+            \ 0.0.0.0"]
         env:
         - name: RAILS_ENV
           value: development
@@ -178,7 +185,7 @@ spec:
               name: person-api-secret
               key: threescale-provider-key
         imagePullPolicy: IfNotPresent
-        image: kingdonb/person-api:0e6ccca2fbb5
+        image: kingdonb/person-api:okteto-dev-827689e2
         name: person-api
         ports:
         - containerPort: 3000
@@ -215,6 +222,8 @@ metadata:
     app.kubernetes.io/version: v1
   name: pzaexcp-api
   namespace: kingdonb
+  annotations:
+    fluxcd.io/automated: "true"
 spec:
   replicas: 1
   selector:
@@ -230,7 +239,8 @@ spec:
     spec:
       containers:
       - command: ["bash"]
-        args: ["--login", "-c", "yarn install && rails s -e development -p 3000 -b 0.0.0.0"]
+        args: ["--login", "-c", "yarn install && rails s -e development -p 3000 -b\
+            \ 0.0.0.0"]
         env:
         - name: RAILS_ENV
           value: development
@@ -270,7 +280,7 @@ spec:
               name: pzaexcp-api-secret
               key: threescale-service-token
         imagePullPolicy: IfNotPresent
-        image: kingdonb/pzaexcp-api:b1b9beaa1697
+        image: kingdonb/pzaexcp-api:api-okteto-dev-4631253e
         name: pzaexcp-api
         ports:
         - containerPort: 3000
@@ -307,6 +317,8 @@ metadata:
     app.kubernetes.io/version: v1
   name: pzaexcp-frontend
   namespace: kingdonb
+  annotations:
+    fluxcd.io/automated: "true"
 spec:
   replicas: 1
   selector:
@@ -322,7 +334,8 @@ spec:
     spec:
       containers:
       - command: ["bash"]
-        args: ["--login", "-c", "yarn install && rails s -e development -p 3000 -b 0.0.0.0"]
+        args: ["--login", "-c", "yarn install && rails s -e development -p 3000 -b\
+            \ 0.0.0.0"]
         env:
         - name: RAILS_ENV
           value: development
@@ -394,7 +407,7 @@ spec:
               name: pzaexcp-frontend-secret
               key: okta-auth-server-id
         imagePullPolicy: IfNotPresent
-        image: kingdonb/pzaexcp-frontend:5b034c458162
+        image: kingdonb/pzaexcp-frontend:frontend-okteto-dev-c3813bc3
         name: pzaexcp-frontend
         ports:
         - containerPort: 3000
