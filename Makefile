@@ -1,7 +1,7 @@
 REGISTRY_IP=172.25.0.4
 REGISTRY_PORT=5000
 
-.PHONY: all build push clone pzaexcp-frontend pzaexcp-api hrpy-api person-api
+.PHONY: all build push clone pzaexcp-frontend pzaexcp-api hrpy-api person-api finance-api
 .PHONY: manifest pull-all pzaexcp-frontend-dev push-dev
 
 PERSON_API_IMAGE_TAG := $(shell ./script/person-api-tag)
