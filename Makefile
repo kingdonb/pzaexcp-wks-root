@@ -31,10 +31,9 @@ clone:
 build: pzaexcp-frontend pzaexcp-api hrpy-api person-api finance-api
 
 pzaexcp-frontend-dev:
-	docker build pzaexcp-frontend -t kingdonb/pzaexcp-frontend:dev --target dev
+	cd pzaexcp-frontend && make build
 pzaexcp-frontend: pzaexcp-frontend-dev
-	docker build pzaexcp-frontend -t kingdonb/pzaexcp-frontend:${PZAEXCP_IMAGE_TAG}
-	docker tag kingdonb/pzaexcp-frontend:${PZAEXCP_IMAGE_TAG} kingdonb/pzaexcp-frontend:latest
+	cd pzaexcp-frontend && make tag-latest tag-image-tag
 pzaexcp-api:
 	docker build pzaexcp-api -t kingdonb/pzaexcp-api:${PZAEXCP_API_IMAGE_TAG}
 hrpy-api:
