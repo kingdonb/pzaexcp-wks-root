@@ -507,7 +507,7 @@ spec:
               name: finance-api-secret
               key: threescale-provider-key
         imagePullPolicy: IfNotPresent
-        image: kingdonb/finance-api:api-dev-2cb0db58
+        image: kingdonb/finance-api:api-dev-e7544b5d
         name: finance-api
         ports:
         - containerPort: 3000
